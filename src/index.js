@@ -68,7 +68,7 @@ class ViewStatementsSection extends React.Component {
                 <h1>this is the view section.</h1>
                 <textarea 
                     className="view-statments-textarea"
-                    cols="50" rows="30"
+                    cols="75" rows="30"
                     value={this.props.statementContents}
                 />
             </div>

@@ -54,7 +54,7 @@ function getRandoName() {
     let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     let rando = () => letters[random.int(0, 4)];
 
-    return`${rando()}${rando()}${rando()}${rando()}${rando()}${rando()}}`;
+    return`${rando()}${rando()}${rando()}${rando()}${rando()}${rando()}`;
 }
 
 module.exports = {

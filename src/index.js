@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import * as Random from 'random';
-
+import * as Statements from './statementsAllDay';
 import './index.css';
 
 
@@ -62,21 +61,37 @@ class AddStatementsList extends React.Component {
     }
 }
 
-class AddStatementsSection extends React.Component {
+class ViewStatementsSection extends React.Component {
+    render() {
+        return (
+            <div>
+                <h1>this is the view section.</h1>
+                <textarea 
+                    className="view-statments-textarea"
+                    cols="50" rows="30"
+                    value={this.props.statementContents}
+                />
+            </div>
+        );
+    }
+}
+
+class Statementizer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            statementIdList: ['one', 'two', 'three', 'four'],
-            selectValue: ''
-        }
+            statementIdList: [],
+            selectedValue: '',
+            statementContents: ''
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-    
+
     render() {
         return (
-            <div className="add-statements-section">
+            <div className="statementizer">
                 <h1>this is the add section.</h1>
                 <AddStatementsButton 
                     onClick={this.handleClick}/>
@@ -84,47 +99,32 @@ class AddStatementsSection extends React.Component {
                     statementIdList={this.state.statementIdList}
                     handleChange={this.handleChange}
                 />
+                <ViewStatementsSection
+                    statementContents={this.state.statementContents}
+                />
             </div>
         );
     }
 
-    handleClick() {
-        // alert(Random.int(1,500));
+    async handleClick() {
         let statementIdList = this.state.statementIdList;
-        let newValue = Random.int(1, 1000);
+        // let newValue = Random.int(1, 1000);
+        let newValue = await Statements.createStatement();
         this.setState({statementIdList: [...statementIdList, newValue]});
     }
 
-    handleChange(value) {
+    async handleChange(value) {
         this.setState({selectedValue: value});
-        alert(value);
-    }
-}
 
-class ViewStatementsSection extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1>this is the view section.</h1>
-                <textarea className="view-statments-textarea" cols="50" rows="30"/>
-            </div>
-        );
-    }
-}
-
-class Statmentizer extends React.Component {
-    render() {
-        return (
-            <div className="statementizer">
-                <AddStatementsSection />
-                <ViewStatementsSection />
-            </div>
-        );
+        let newStatementContents = await Statements.getStatementById(value);
+        // let newStatementContents = `${value} is the new statements contents.`
+        this.setState({statementContents: newStatementContents});
+        //alert(value);
     }
 }
 
 
 ReactDOM.render(
-    <Statmentizer />,
+    <Statementizer />,
     document.getElementById('root')
 );
